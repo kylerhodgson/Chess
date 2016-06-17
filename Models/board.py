@@ -1,5 +1,5 @@
 #  The chess board that will be used in this project
-from chesspiece import ChessPiece
+from Models.Pieces.chesspiece import ChessPiece
 
 
 class Board:
