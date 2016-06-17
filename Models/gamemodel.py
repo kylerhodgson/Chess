@@ -1,6 +1,7 @@
 # Game Model Class
 from Models.moveoptions import MoveOptions
 from Models.Pieces.chesspiece import *
+from Models.Resources.linkedlist import LinkedList
 
 
 class GameModel:
@@ -13,6 +14,7 @@ class GameModel:
         self._black_king_position = (0,0)
         self._white_king_position = (0,0)
         self._turn = TeamColor.white
+        self._moveHistory = LinkedList()
 
     def move(self, origin, destination):
         piece = self._gameBoard.get_piece_at_index(origin)
@@ -33,6 +35,7 @@ class GameModel:
                 self._gameBoard.set_piece_at_index(origin, piece)
                 self._gameBoard.set_piece_at_index(destination, piece2)
                 return MoveOptions.in_check
+            """If move is different than what is next in the history, then delete the future moves in the history"""
             return MoveOptions.moved
 
     def check_for_check(self):
@@ -57,6 +60,23 @@ class GameModel:
                 piece = self._gameBoard.get_piece_at_index(x, y)
                 if piece is not None & piece.get_team() == TeamColor.black:
                     moves.append(piece.moves())
+                """Do I need to reset the position here or somewhere else?"""
+                if piece is not None & piece.get_team() == TeamColor.white & piece.get_type() == PieceType.king:
+                    self._white_king_position = piece.get_position()
 
     def get_all_white_moves(self):
         """TODO: Implement this"""
+
+    def undo(self):
+        """TODO: reset the pointer in the linked list to one node before the current one
+            and reset the game board"""
+        return False
+
+    def redo(self):
+        """If there is a move that can be redone, redo it.
+            Did we even want a redo function?"""
+        return False
+
+    def create_move_node(self):
+        """Linked list node for tracking history for undo/redo"""
+        return False
