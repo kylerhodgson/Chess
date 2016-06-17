@@ -7,3 +7,8 @@ The intent is to learn python as we program a chess game
 * Step 4: game testing
 * Step 5: AI creation
 * *(optional)* Step 6: multiplayer support over the internet
+
+**Framework:**
+* Python 3.5.1
+* Kivy 1.9.1
+* PyCharm Community 2016.1.4
