@@ -22,15 +22,25 @@ class Board:
 
     """Creates the board with the specified size"""
     def set_board(self):
-        self._board = [[ChessPiece(None, None, None, None) for x in range(self._xRange)] for y in range(self._yRange)]
+        self._board = [[None for x in range(self._xRange)] for y in range(self._yRange)]
 
     """Returns the board"""
     def board(self):
         return self._board
 
     """Returns the piece at the specified index."""
-    def piece_at_index(self, x, y):
-        if x > 0 & x < self._xRange & y > 0 & y < self._yRange:
+    def get_piece_at_index(self, x, y):
+        if self.is_inside_board((x, y)):
             return self._board[x][y]
         return None
+
+    def get_piece_at_index(self, position):
+        if self.is_inside_board(position):
+            return self.piece_at_index(position[0], position[1])
+
+    def set_piece_at_index(self, position, piece):
+        self._board[position[0]][position[1]] = piece
+
+    def is_inside_board(self, position):
+        return position[0] >= 0 & position[0] < self._xRange & position[1] >= 0 & position[1] < self._yRange
 
