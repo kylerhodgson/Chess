@@ -7,4 +7,5 @@ class GameModel:
     def __init__(self):
         self._gameBoard = Board()
 
-    def move(self, ):
+    def move(self, origin, destination):
+        return 3

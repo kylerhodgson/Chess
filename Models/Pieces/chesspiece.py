@@ -6,11 +6,17 @@ class ChessPiece:
         self._team = team_color
         self._position = (x_value, y_value)
 
-    def type(self):
+    def get_type(self):
         return self._pieceType
 
-    def team(self):
+    def get_team(self):
         return self._team
 
-    def position(self):
+    def set_team(self, team):
+        self._team = team
+
+    def get_position(self):
         return self._position
+
+    def set_position(self, x, y):
+        self._position = (x, y)

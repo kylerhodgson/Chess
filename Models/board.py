@@ -1,4 +1,6 @@
 #  The chess board that will be used in this project
+# The board is 0 based in the lower left hand corner
+# The White team should start at the bottom, the black at the top
 from Models.Pieces.chesspiece import ChessPiece
 
 
@@ -20,7 +22,7 @@ class Board:
 
     """Creates the board with the specified size"""
     def set_board(self):
-        self._board = [[ChessPiece(None, None) for x in range(self._xRange)] for y in range(self._yRange)]
+        self._board = [[ChessPiece(None, None, None, None) for x in range(self._xRange)] for y in range(self._yRange)]
 
     """Returns the board"""
     def board(self):
