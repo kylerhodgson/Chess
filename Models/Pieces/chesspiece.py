@@ -52,9 +52,11 @@ class Pawn(ChessPiece):
             elif board.get_piece_at_index((x, y + 1)) is None:
                 possible_moves.append((x, y + 1))
             """will this call a null reference exception? if there is no piece at that spot in the board?"""
-            if board.get_piece_at_index((x + 1, y + 1)) is not None and board.get_piece_at_index((x + 1, y + 1)).team == TeamColor.black:
+            if board.get_piece_at_index((x + 1, y + 1)) is not None \
+                    and board.get_piece_at_index((x + 1, y + 1)).get_team() == TeamColor.black:
                 possible_moves.append((x + 1, y + 1))
-            if board.get_piece_at_index((x - 1, y + 1)) is not None and board.get_piece_at_index((x - 1, y + 1)).team == TeamColor.black:
+            if board.get_piece_at_index((x - 1, y + 1)) is not None \
+                    and board.get_piece_at_index((x - 1, y + 1)).get_team() == TeamColor.black:
                 possible_moves.append((x - 1, y + 1))
         elif self._team == TeamColor.black:
             if y == 6 and board.get_piece_at_index((x, y - 1)) is None:
@@ -63,9 +65,11 @@ class Pawn(ChessPiece):
                     possible_moves.append((x, y - 2))
             elif board.get_piece_at_index((x, y - 1)) is None:
                 possible_moves.append((x, y - 1))
-            if board.get_piece_at_index((x + 1, y - 1)) is not None and board.get_piece_at_index((x + 1, y - 1)).team == TeamColor.white:
+            if board.get_piece_at_index((x + 1, y - 1)) is not None \
+                    and board.get_piece_at_index((x + 1, y - 1)).get_team() == TeamColor.white:
                 possible_moves.append((x + 1, y - 1))
-            if board.get_piece_at_index((x - 1, y - 1)) is not None and board.get_piece_at_index((x - 1, y - 1)).team == TeamColor.white:
+            if board.get_piece_at_index((x - 1, y - 1)) is not None \
+                    and board.get_piece_at_index((x - 1, y - 1)).get_team() == TeamColor.white:
                 possible_moves.append((x - 1, y - 1))
         return possible_moves
 
