@@ -51,5 +51,3 @@ class Chess(App):
         b.add_widget(f)"""
         return b
 
-if __name__ == '__main__':
-    Chess().run()

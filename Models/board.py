@@ -17,7 +17,7 @@ class Board:
         self._xRange = x_value
         self._yRange = y_value
         self._board = []
-        self.setboard()
+        self.set_board()
 
     """Creates the board with the specified size"""
     def set_board(self):
@@ -26,12 +26,6 @@ class Board:
     """Returns the board"""
     def board(self):
         return self._board
-
-    """Returns the piece at the specified index."""
-    def get_piece_at_index(self, x, y):
-        if self.is_inside_board((x, y)):
-            return self._board[x][y]
-        return None
 
     def get_piece_at_index(self, position):
         if self.is_inside_board(position):
