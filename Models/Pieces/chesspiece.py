@@ -1,5 +1,5 @@
-from .teamcolor import TeamColor
-from .piecetype import PieceType
+from Models.Pieces.teamcolor import TeamColor
+from Models.Pieces.piecetype import PieceType
 from Models.board import Board
 
 

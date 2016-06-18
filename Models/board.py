@@ -1,7 +1,6 @@
 #  The chess board that will be used in this project
 # The board is 0 based in the lower left hand corner
 # The White team should start at the bottom, the black at the top
-from Models.Pieces.chesspiece import ChessPiece
 
 
 class Board:
