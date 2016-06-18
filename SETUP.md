@@ -8,10 +8,8 @@ Download [PyCharm Community](https://www.jetbrains.com/pycharm/download/). The l
 
 #####Project setup:
 Clone the source code, and open the project in PyCharm. <br />
-We need to use Kivy in order to run UI elements, so lets set that up next. <br />
-Go to PyCharm > Preferences. Select the Project Interpreter tab under Project. <br />
-Make sure that you are using Python 3.x and that PyCharm has detected your Kivy installation. <br />
-Hit OK and exit.
+To make sure that everything was installed correctly, try running 'main.py' <br />
+A screen with a grid on it should pop up.
 
 ---
 
