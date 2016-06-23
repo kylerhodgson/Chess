@@ -1,7 +1,6 @@
 import unittest
-from Models.Pieces.chesspiece import *
-from Models.Pieces.teamcolor import *
-from Models.Pieces.piecetype import *
+from Models.GameModel.Pieces.chesspiece import *
+from Models.GameModel.board import *
 
 
 class PawnPieceTest(unittest.TestCase):

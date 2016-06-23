@@ -1,6 +1,5 @@
-from Models.Pieces.teamcolor import TeamColor
-from Models.Pieces.piecetype import PieceType
-from Models.board import Board
+from Models.GameModel.Pieces.teamcolor import TeamColor
+from Models.GameModel.Pieces.piecetype import PieceType
 
 
 class ChessPiece:

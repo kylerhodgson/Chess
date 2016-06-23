@@ -1,7 +1,8 @@
 # Game Model Class
-from Models.moveoptions import MoveOptions
-from Models.Pieces.chesspiece import *
-from Models.Resources.linkedlist import LinkedList
+from Models.GameModel.Resources.linkedlist import LinkedList
+from Models.GameModel.moveoptions import MoveOptions
+from Models.GameModel.Pieces.chesspiece import *
+from Models.GameModel.board import *
 
 
 class GameModel:
