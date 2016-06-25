@@ -27,7 +27,7 @@ class Board:
                 self._board[x].append(None)
 
     """Returns the board"""
-    def board(self):
+    def get_board(self):
         return self._board
 
     """Returns the piece at the specified index."""
@@ -37,11 +37,11 @@ class Board:
         return None
 
     def get_piece_at_index(self, position):
-        return self.board()[position[0]][position[1]]
+        return self.get_board()[position[0]][position[1]]
 
     def set_piece_at_index(self, position, piece):
         self._board[position[0]][position[1]] = piece
 
     def is_inside_board(self, position):
-        return position[0] >= 0 & position[0] < self._xRange & position[1] >= 0 & position[1] < self._yRange
+        return position[0] >= 0 and position[0] < self._xRange and position[1] >= 0 and position[1] < self._yRange
 

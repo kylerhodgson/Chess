@@ -10,10 +10,10 @@ class GameModel:
     def __init__(self):
         self._gameBoard = Board()
         self.initialize_game()
-        self._white_king_trouble = False
-        self._black_king_trouble = False
-        self._black_king_position = (0,0)
-        self._white_king_position = (0,0)
+        self._white_king_in_check = False
+        self._black_king_in_check = False
+        self._black_king_position = (0, 0)
+        self._white_king_position = (0, 0)
         self._turn = TeamColor.white
         self._moveHistory = LinkedList()
 
@@ -46,13 +46,13 @@ class GameModel:
 
     def initialize_game(self):
         """TODO: Finish this"""
-        """set pawns"""
+        # set pawns
         for i in range(8):
             white_pawn = Pawn(TeamColor.white, (i, 1))
             self._gameBoard.set_piece_at_index((i, 1), white_pawn)
             black_pawn = Pawn(TeamColor.black, (i, 6))
             self._gameBoard.set_piece_at_index((i, 6), black_pawn)
-        """set the rest of the pieces"""
+        # set the rest of the pieces
 
     def get_all_black_moves(self):
         moves = []
@@ -81,3 +81,12 @@ class GameModel:
     def create_move_node(self):
         """Linked list node for tracking history for undo/redo"""
         return False
+
+    def get_board(self):
+        return self._gameBoard
+
+    def get_white_in_check(self):
+        return self._white_king_in_check
+
+    def get_black_in_check(self):
+        return self._black_king_in_check
