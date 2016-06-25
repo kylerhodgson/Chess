@@ -18,32 +18,32 @@ class BoardBox(Rectangle):
     pass
 
 
-class BoardWidget(GridLayout):
+class BoardWidget(FloatLayout):
     def __init__(self, **kwargs):
         super(BoardWidget, self).__init__(**kwargs)
-        self.cols = 8
-        self.rows = 8
-        self.build()
-        with self.canvas.before:
-            Color(1, 0, 1, 1)  # green; colors range from 0-1 instead of 0-255
-            self.rect = Rectangle(size=self.size, pos=self.pos)
+        pieces = []
+        with self.canvas:
+            size = 70
+            for i in range(8):
+                for j in range(8):
+                    Color(1, 0, 0, 1) if (i+j)%2 == 0 else Color(0,0,1,1)  #  colors range from 0-1 instead of 0-255
+                    Rectangle(pos=(j * size, abs(i-7) * size), size=(size,size))
+                    s = Scatter(do_rotation=False, do_scale=False)
+                    s.set_center_x(j * size + size/2)
+                    s.set_center_y((abs(i-7))*size + size/2)
+                    s.auto_bring_to_front = True
+                    im = Image(source='Images/pawn.png')
+                    s.add_widget(im)
+                    s.id = "Pawn" + str(j) + str(abs(i-7))
+                    s.size = (size/2, size/2)
+                    self.add_widget(s)
+                    pieces += [s]
+
+
+class Chess3(App):
 
     def build(self):
-        for i in range(8):
-            for j in range(8):
-                s = Scatter(do_rotation=False, do_scale=False)
-                s.auto_bring_to_front = True
-                s.set_center_x(j * self.col_default_width)
-                im = Image(source='Images/pawn.png')
-                s.add_widget(im)
-                self.add_widget(s)
-                im.reload()
-
-
-class Chess2(App):
-
-    def build(self):
-        b = BoardWidget()
+        box = BoardWidget()
         """t = TextInput(font_size=150,
                       size_hint_y=None,
                       height=200,
@@ -61,9 +61,7 @@ class Chess2(App):
 
         b.add_widget(t)
         b.add_widget(f)"""
-        box = BoxLayout()
-        box.add_widget(b)
         return box
 
 if __name__ == '__main__':
-    Chess2().run()
+    Chess3().run()
