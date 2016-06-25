@@ -4,7 +4,7 @@ from Models.GameModel.Pieces.piecetype import PieceType
 
 class ChessPiece:
 
-    """Todo: check inputs piece_type and team_color to make sure that they have correct values"""
+    # Todo: check inputs piece_type and team_color to make sure that they have correct values
     def __init__(self, piece_type, team_color, x_value, y_value):
         self._pieceType = piece_type
         self._team = team_color

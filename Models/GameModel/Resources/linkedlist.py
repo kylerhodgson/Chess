@@ -47,6 +47,9 @@ class LinkedList:
     def get_current_index(self):
         return self._current_index
 
+    def get_data(self):
+        return self._current.get_data()
+
     def get_last(self):
         return self._last
 

@@ -73,3 +73,4 @@ class LinkedListTest(unittest.TestCase):
         linked_list.add_end(LinkedListNode(None, None, None))
         self.assertEqual(21, linked_list.get_count())
         self.assertEqual(20, linked_list.get_current_index())
+        self.assertFalse(linked_list.move_next())
