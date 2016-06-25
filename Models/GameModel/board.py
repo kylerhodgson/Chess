@@ -44,4 +44,3 @@ class Board:
 
     def is_inside_board(self, position):
         return position[0] >= 0 and position[0] < self._xRange and position[1] >= 0 and position[1] < self._yRange
-

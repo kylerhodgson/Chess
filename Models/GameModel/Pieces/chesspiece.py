@@ -4,11 +4,11 @@ from Models.GameModel.Pieces.piecetype import PieceType
 
 class ChessPiece:
 
-    # Todo: check inputs piece_type and team_color to make sure that they have correct values
     def __init__(self, piece_type, team_color, x_value, y_value):
         self._pieceType = piece_type
         self._team = team_color
         self._position = (x_value, y_value)
+        self._id = None
 
     def get_type(self):
         return self._pieceType
@@ -28,6 +28,9 @@ class ChessPiece:
     def set_position(self, pos):
         self._position = pos
 
+    def get_id(self):
+        return self._id
+
 
 class Pawn(ChessPiece):
 
@@ -42,19 +45,22 @@ class Pawn(ChessPiece):
     def get_moves(self, board):
         possible_moves = []
         x = self._position[0]
+        x_plus = x + 1
+        x_minus = x - 1
         y = self._position[1]
+        y_plus = y + 1
+        y_minus = y - 1
         if self._team == TeamColor.white:
             if y == 1 and board.get_piece_at_index((x, y + 1)) is None:
                 possible_moves.append((x, y + 1))
                 if board.get_piece_at_index((x, y + 2)) is None:
                     possible_moves.append((x, y + 2))
-            elif board.get_piece_at_index((x, y + 1)) is None:
+            elif y_plus < 8 and board.get_piece_at_index((x, y + 1)) is None:
                 possible_moves.append((x, y + 1))
-            """will this call a null reference exception? if there is no piece at that spot in the board?"""
-            if board.get_piece_at_index((x + 1, y + 1)) is not None \
+            if x_plus < 8 and y_plus < 8 and board.get_piece_at_index((x + 1, y + 1)) is not None \
                     and board.get_piece_at_index((x + 1, y + 1)).get_team() == TeamColor.black:
                 possible_moves.append((x + 1, y + 1))
-            if board.get_piece_at_index((x - 1, y + 1)) is not None \
+            if x_minus >= 0 and y_plus < 8 and board.get_piece_at_index((x - 1, y + 1)) is not None \
                     and board.get_piece_at_index((x - 1, y + 1)).get_team() == TeamColor.black:
                 possible_moves.append((x - 1, y + 1))
         elif self._team == TeamColor.black:
@@ -62,12 +68,12 @@ class Pawn(ChessPiece):
                 possible_moves.append((x, y - 1))
                 if board.get_piece_at_index((x, y - 2)) is None:
                     possible_moves.append((x, y - 2))
-            elif board.get_piece_at_index((x, y - 1)) is None:
+            elif y_minus >= 0 and board.get_piece_at_index((x, y - 1)) is None:
                 possible_moves.append((x, y - 1))
-            if board.get_piece_at_index((x + 1, y - 1)) is not None \
+            if x_plus < 8 and y_minus >= 0 and board.get_piece_at_index((x + 1, y - 1)) is not None \
                     and board.get_piece_at_index((x + 1, y - 1)).get_team() == TeamColor.white:
                 possible_moves.append((x + 1, y - 1))
-            if board.get_piece_at_index((x - 1, y - 1)) is not None \
+            if x_minus >= 0 and y_minus >= 0 and board.get_piece_at_index((x - 1, y - 1)) is not None \
                     and board.get_piece_at_index((x - 1, y - 1)).get_team() == TeamColor.white:
                 possible_moves.append((x - 1, y - 1))
         return possible_moves
@@ -122,7 +128,6 @@ class Bishop(ChessPiece):
         return possible_moves
 
 
-
 class Rook(ChessPiece):
 
     def __init__(self, team_color,position):
@@ -139,9 +144,9 @@ class Rook(ChessPiece):
         x = self._position[0]
         y = self._position[1]
         y_up = self._position[1] + num
-        y_down = self.position[1] - num
-        x_right = self.position[0] + num
-        x_left = self.position[0] - num
+        y_down = self._position[1] - num
+        x_right = self._position[0] + num
+        x_left = self._position[0] - num
         if up >= 0 and board.get_piece_at_index((y_up, x)).get_team() != self.get_team():
             possible_moves.append((y_up, x))
             possible_moves.append(self.moves_helper(num+1, board, 1, 0, 0, 0))

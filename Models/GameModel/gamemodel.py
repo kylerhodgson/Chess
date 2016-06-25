@@ -7,7 +7,7 @@ from Models.GameModel.board import *
 
 class GameModel:
 
-    def __init__(self):
+    def __init__(self, container):
         self._gameBoard = Board()
         self.initialize_game()
         self._white_king_in_check = False
@@ -16,6 +16,7 @@ class GameModel:
         self._white_king_position = (0, 0)
         self._turn = TeamColor.white
         self._move_history = LinkedList()
+        self._container = container
 
     def move(self, origin, destination):
         old_piece1 = self._gameBoard.get_piece_at_index(origin)
@@ -23,11 +24,11 @@ class GameModel:
         old_turn = self._turn
         new_turn = TeamColor.white if self._turn == TeamColor.black else TeamColor.black
         piece = self._gameBoard.get_piece_at_index(origin)
-        if piece is None | piece.get_team() != self._turn:
+        if piece is None or piece.get_team() != self._turn:
             return
         piece2 = self._gameBoard.get_piece_at_index(destination)
-        _moves = piece.moves()
-        if not _moves.contains(destination):
+        _moves = piece.get_moves(self._gameBoard)
+        if destination not in _moves:
             return MoveOptions.invalid_destination
         else:
             piece.set_position(destination)
@@ -45,12 +46,17 @@ class GameModel:
             new_piece2 = self._gameBoard.get_piece_at_index(destination)
             self._move_history.add_next(LinkedListNode(None, None, MoveData(old_piece1, old_piece2, new_piece1, new_piece2, old_turn, new_turn)))
             self._turn = TeamColor.white if self._turn == TeamColor.black else TeamColor.black
+            if old_piece2 is not None:
+                self._container.remove_piece(old_piece2)
             return MoveOptions.moved
 
     def check_for_check(self):
         if self._turn == TeamColor.white:
-            return self.get_all_black_moves().contains(self._white_king_position)
-        return self.get_all_white_moves().contains(self._black_king_position)
+            if self._white_king_position in self.get_all_black_moves():
+                return True
+        elif self._black_king_position in self.get_all_white_moves():
+            return True
+        return False
 
     def initialize_game(self):
         """TODO: Finish this"""
@@ -66,15 +72,18 @@ class GameModel:
         moves = []
         for x in range(8):
             for y in range(8):
-                piece = self._gameBoard.get_piece_at_index(x, y)
-                if piece is not None & piece.get_team() == TeamColor.black:
-                    moves.append(piece.moves())
+                piece = self._gameBoard.get_piece_at_index((x, y))
+                if piece is not None and piece.get_team() == TeamColor.black:
+                    moves += piece.get_moves(self._gameBoard)
                 """Do I need to reset the position here or somewhere else?"""
-                if piece is not None & piece.get_team() == TeamColor.white & piece.get_type() == PieceType.king:
+                if piece is not None and piece.get_team() == TeamColor.white & piece.get_type() == PieceType.king:
                     self._white_king_position = piece.get_position()
+        return moves
 
     def get_all_white_moves(self):
         """TODO: Implement this"""
+        moves = []
+        return moves
 
     def undo(self):
         if self._move_history.move_previous():

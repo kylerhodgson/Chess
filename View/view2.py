@@ -10,8 +10,6 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.graphics import Rectangle
 from kivy.uix.button import Button
 from math import *
-from kivy.graphics import *
-from kivy.graphics import Color
 
 
 class BoardBox(Rectangle):
@@ -19,31 +17,21 @@ class BoardBox(Rectangle):
 
 
 class BoardWidget(GridLayout):
-    def __init__(self, **kwargs):
-        super(BoardWidget, self).__init__(**kwargs)
+    def build(self):
         self.cols = 8
         self.rows = 8
-        self.build()
-        with self.canvas.before:
-            Color(1, 0, 1, 1)  # green; colors range from 0-1 instead of 0-255
-            self.rect = Rectangle(size=self.size, pos=self.pos)
-
-    def build(self):
+        self.padding = 15
         for i in range(8):
             for j in range(8):
-                s = Scatter(do_rotation=False, do_scale=False)
-                s.auto_bring_to_front = True
-                s.set_center_x(j * self.col_default_width)
-                im = Image(source='Images/pawn.png')
-                s.add_widget(im)
-                self.add_widget(s)
-                im.reload()
+                button = Button(text="("+str(j)+","+str(abs(i-7))+")")
+                self.add_widget(button)
 
 
-class Chess2(App):
+class ChessBoard(App):
 
     def build(self):
         b = BoardWidget()
+        b.build()
         """t = TextInput(font_size=150,
                       size_hint_y=None,
                       height=200,
@@ -61,9 +49,5 @@ class Chess2(App):
 
         b.add_widget(t)
         b.add_widget(f)"""
-        box = BoxLayout()
-        box.add_widget(b)
-        return box
+        return b
 
-if __name__ == '__main__':
-    Chess2().run()
