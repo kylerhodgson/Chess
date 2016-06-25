@@ -123,3 +123,34 @@ class Bishop(ChessPiece):
 
 
 
+class Rook(ChessPiece):
+
+    def __init__(self, team_color,position):
+        self._pieceType = PieceType.rook
+        self._team = team_color
+        self._position = position
+
+    def get_moves(self,board):
+        possible_moves = [self.moves_helper(1, board, 1, 1, 1, 1)]
+        return possible_moves
+
+    def moves_helper(self, num, board, up, down, left, right ):
+        possible_moves = []
+        x = self._position[0]
+        y = self._position[1]
+        y_up = self._position[1] + num
+        y_down = self.position[1] - num
+        x_right = self.position[0] + num
+        x_left = self.position[0] - num
+        if up >= 0 and board.get_piece_at_index((y_up, x)).get_team() != self.get_team():
+            possible_moves.append((y_up, x))
+            possible_moves.append(self.moves_helper(num+1, board, 1, 0, 0, 0))
+        if down >= 0 and board.get_piece_at_index((y_down, x)).get_team() != self.get_team():
+            possible_moves.append((y_down, x))
+            possible_moves.append(self.moves_helper(num + 1, board, 0, 1, 0, 0))
+        if left >= 0 and board.get_piece_at_index((x_left, y)).get_team() != self.get_team():
+            possible_moves.append((x_left, y))
+            possible_moves.append(self.moves_helper(num + 1, board, 0, 0, 1, 0))
+        if right >= 0 and board.get_piece_at_index((x_right, y)).get_team() != self.get_team():
+            possible_moves.append((x_right, y))
+            possible_moves.append(self.moves_helper(num + 1, board, 0, 0, 0, 1))

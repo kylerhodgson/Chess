@@ -90,3 +90,12 @@ class BishopPieceTests(unittest.TestCase):
         self.assertEqual(len(bishop3.get_moves(board)), 6)
         self.assertEqual(len(pawn.get_moves(board)), 1)
         self.assertEqual(len(bishop.get_moves(board)), 6)
+
+
+class RookPieceTest(unittest.TestCase):
+    def test_RookInitialize(self):
+        rook = Rook(TeamColor.black, (5, 5))
+        self.assertEqual(rook.get_team(), TeamColor.black)
+        self.assertEqual(rook.get_position(), (5, 5))
+        self.assertEqual(rook.get_type(), PieceType.rook)
+
