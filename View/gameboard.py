@@ -37,9 +37,9 @@ class BoardWidget(FloatLayout):
                           size=(length / 8, length / 8))
 
     def place_pieces(self, length):
-        for piece in self.piece_map.items():
-            piece[1].resize(length)
-            self.add_widget(piece[1])
+        for piece in self.piece_map.values():
+            piece.resize(length)
+            self.add_widget(piece)
 
     def set_piece(self, piece):
         if piece is None:
@@ -57,3 +57,13 @@ class BoardWidget(FloatLayout):
     def delete_piece(self, piece):
         self.remove_widget(self.piece_map[piece.__hash__()])
         self.piece_map[piece.__hash__()] = None
+
+    def delete_all_pieces(self):
+        for piece in self.piece_map.values():
+            if piece is not None:
+                self.remove_widget(piece)
+        self.piece_map.clear()
+
+    def highlight_position(self, position):
+        """TODO: Highlight a position for when a king is in check"""
+        return True
