@@ -7,7 +7,6 @@ from Models.GameModel.board import *
 
 class GameModel:
     _gameBoard = None
-    _gameBoard = None
     _white_king_in_check = False
     _black_king_in_check = False
     _black_king_position = None
@@ -24,8 +23,8 @@ class GameModel:
         self.initialize_game()
         self._white_king_in_check = False
         self._black_king_in_check = False
-        self._black_king_position = (0, 0)
-        self._white_king_position = (0, 0)
+        self._black_king_position = (4, 7)
+        self._white_king_position = (4, 0)
         self._turn = TeamColor.white
         self._move_history = LinkedList()
 
@@ -77,7 +76,43 @@ class GameModel:
             self._gameBoard.set_piece_at_index((i, 1), white_pawn)
             black_pawn = Pawn(TeamColor.black, (i, 6))
             self._gameBoard.set_piece_at_index((i, 6), black_pawn)
-        # set the rest of the pieces
+        # set the bishops
+        white_bishop = Bishop(TeamColor.white, (2, 0))
+        self._gameBoard.set_piece_at_index((2, 0), white_bishop)
+        white_bishop2 = Bishop(TeamColor.white, (5, 0))
+        self._gameBoard.set_piece_at_index((5, 0), white_bishop2)
+        black_bishop = Bishop(TeamColor.black, (2, 7))
+        self._gameBoard.set_piece_at_index((2, 7), black_bishop)
+        black_bishop2 = Bishop(TeamColor.black, (5, 7))
+        self._gameBoard.set_piece_at_index((5, 7), black_bishop2)
+        # set the knights
+        white_knight = Knight(TeamColor.white, (1, 0))
+        self._gameBoard.set_piece_at_index((1, 0), white_knight)
+        white_knight = Knight(TeamColor.white, (6, 0))
+        self._gameBoard.set_piece_at_index((6, 0), white_knight)
+        black_knight = Knight(TeamColor.black, (1, 7))
+        self._gameBoard.set_piece_at_index((1, 7), black_knight)
+        black_knight = Knight(TeamColor.black, (6, 7))
+        self._gameBoard.set_piece_at_index((6, 7), black_knight)
+        # set the rooks
+        white_rook = Rook(TeamColor.white, (7, 0))
+        self._gameBoard.set_piece_at_index((7, 0), white_rook)
+        black_rook = Rook(TeamColor.black, (0, 7))
+        self._gameBoard.set_piece_at_index((0, 7), black_rook)
+        white_rook = Rook(TeamColor.white, (0, 0))
+        self._gameBoard.set_piece_at_index((0, 0), white_rook)
+        black_rook = Rook(TeamColor.black, (7, 7))
+        self._gameBoard.set_piece_at_index((7, 7), black_rook)
+        # set the queens
+        white_queen = Queen(TeamColor.white, (3, 0))
+        self._gameBoard.set_piece_at_index((3, 0), white_queen)
+        black_queen = Queen(TeamColor.black, (3, 7))
+        self._gameBoard.set_piece_at_index((3, 7), black_queen)
+        # set the kings
+        white_king = King(TeamColor.white, (4, 0))
+        self._gameBoard.set_piece_at_index((4, 0), white_king)
+        black_king = King(TeamColor.black, (4, 7))
+        self._gameBoard.set_piece_at_index((4, 7), black_king)
 
     def get_all_moves(self, team_color):
         moves = []

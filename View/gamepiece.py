@@ -56,7 +56,7 @@ class Piece(Scatter):
         elif piece.get_type() == PieceType.king:
             im = Image(source='View/Images/king.png')
         if im is not None:
-            im.color = (.8, 0, 0, 1) if piece.get_team() == TeamColor.black else (0, .0, 1, 1)
+            im.color = (1, .6, .6, 1) if piece.get_team() == TeamColor.black else (.7, .7, 1, .9)
         return im
 
     def set_position(self, position, length):
