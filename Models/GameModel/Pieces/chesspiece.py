@@ -129,7 +129,6 @@ class Bishop(ChessPiece):
 
 
 class Rook(ChessPiece):
-
     def __init__(self, team_color, position):
         self._pieceType = PieceType.rook
         self._team = team_color
@@ -311,6 +310,7 @@ class King(ChessPiece):
             if piece is None or piece.get_team() != self.get_team():
                 possible_moves += [(x, y + 1)]
         return possible_moves
+
 
 class Knight(ChessPiece):
     def __init__(self, team_color, position):
