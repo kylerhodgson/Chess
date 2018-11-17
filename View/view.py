@@ -74,7 +74,7 @@ class Chess(App):
         popup.set_button2_text("No")
         popup.set_button2_callback(popup.dismiss)
         popup.set_title("Checkmate!")
-        team = "White" if winning_team == TeamColor.White else "Black"
+        team = "White" if winning_team == TeamColor.white else "Black"
         popup.set_message(team + " wins! Would you like to play again?")
         popup.open()
         return True

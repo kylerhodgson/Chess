@@ -7,7 +7,6 @@ from Models.GameModel.board import *
 
 class GameModel:
     _gameBoard = None
-    _gameBoard = None
     _white_king_in_check = False
     _black_king_in_check = False
     _black_king_position = None
@@ -24,12 +23,14 @@ class GameModel:
         self.initialize_game()
         self._white_king_in_check = False
         self._black_king_in_check = False
-        self._black_king_position = (0, 0)
-        self._white_king_position = (0, 0)
+        self._black_king_position = (4, 7)
+        self._white_king_position = (4, 0)
         self._turn = TeamColor.white
         self._move_history = LinkedList()
 
     def move(self, origin, destination):
+        if destination[0] > 7 or destination[0] < 0 or destination[1] > 7 or destination[1] < 0:
+            return
         old_piece1 = self._gameBoard.get_piece_at_index(origin)
         old_piece2 = self._gameBoard.get_piece_at_index(destination)
         old_turn = self._turn
@@ -58,26 +59,113 @@ class GameModel:
             self._move_history.add_next(LinkedListNode(None, None,
                                                        MoveData(old_piece1, old_piece2, new_piece1,
                                                                 new_piece2, old_turn, new_turn)))
-            self._turn = TeamColor.white if self._turn == TeamColor.black else TeamColor.black
+            if self.check_for_checkmate():
+                self._container.checkmate(self._turn)
             if old_piece2 is not None:
                 self._container.remove_piece(old_piece2)
+            self._turn = TeamColor.white if self._turn == TeamColor.black else TeamColor.black
             if len(self.get_all_moves(self._turn)) == 0:
                 self._container.stalemate()
             return MoveOptions.moved
 
     def check_for_check(self):
-        return self._black_king_position in self.get_all_moves(TeamColor.white) if self._turn == TeamColor.white \
+        return self._black_king_position in self.get_all_moves(TeamColor.white) if self._turn == TeamColor.black \
             else self._white_king_position in self.get_all_moves(TeamColor.black)
 
+    def check_for_checkmate(self):
+        if self._turn == TeamColor.white and self._black_king_position in self.get_all_moves(TeamColor.white):
+            return self.checkmate_white()
+        elif self._turn == TeamColor.black and self._white_king_position in self.get_all_moves(TeamColor.black):
+            return self.checkmate_black()
+
+    def checkmate_white(self):
+        for x in range(8):
+            for y in range(8):
+                piece = self._gameBoard.get_piece_at_index((x, y))
+                if piece is not None and piece.get_team() == TeamColor.black:
+                    moves = piece.get_moves(self._gameBoard)
+                    for z in moves:
+                        old_piece2 = self._gameBoard.get_piece_at_index(z)
+                        piece.set_position(z)
+                        self._gameBoard.set_piece_at_index((x, y), None)
+                        self._gameBoard.set_piece_at_index(z, piece)
+                        self.refresh_king_position()
+                        """If in check, needs to check to see if move gets it out of check
+                        If not in check, needs to check to see if move gets player into check"""
+                        if self._black_king_position in self.get_all_moves(TeamColor.white):
+                            piece.set_position((x, y))
+                            self._gameBoard.set_piece_at_index((x, y), piece)
+                            self._gameBoard.set_piece_at_index(z, old_piece2)
+                        else:
+                            return False
+        return True
+
+    def checkmate_black(self):
+        for x in range(8):
+            for y in range(8):
+                piece = self._gameBoard.get_piece_at_index((x, y))
+                if piece is not None and piece.get_team() == TeamColor.white:
+                    moves = piece.get_moves(self._gameBoard)
+                    for z in moves:
+                        old_piece2 = self._gameBoard.get_piece_at_index(z)
+                        piece.set_position(z)
+                        self._gameBoard.set_piece_at_index((x, y), None)
+                        self._gameBoard.set_piece_at_index(z, piece)
+                        self.refresh_king_position()
+                        """If in check, needs to check to see if move gets it out of check
+                        If not in check, needs to check to see if move gets player into check"""
+                        if self._white_king_position in self.get_all_moves(TeamColor.black):
+                            piece.set_position((x, y))
+                            self._gameBoard.set_piece_at_index((x, y), piece)
+                            self._gameBoard.set_piece_at_index(z, old_piece2)
+                        else:
+                            return False
+        return True
+
     def initialize_game(self):
-        """TODO: Finish this"""
         # set pawns
         for i in range(8):
             white_pawn = Pawn(TeamColor.white, (i, 1))
             self._gameBoard.set_piece_at_index((i, 1), white_pawn)
             black_pawn = Pawn(TeamColor.black, (i, 6))
             self._gameBoard.set_piece_at_index((i, 6), black_pawn)
-        # set the rest of the pieces
+        # set the bishops
+        white_bishop = Bishop(TeamColor.white, (2, 0))
+        self._gameBoard.set_piece_at_index((2, 0), white_bishop)
+        white_bishop2 = Bishop(TeamColor.white, (5, 0))
+        self._gameBoard.set_piece_at_index((5, 0), white_bishop2)
+        black_bishop = Bishop(TeamColor.black, (2, 7))
+        self._gameBoard.set_piece_at_index((2, 7), black_bishop)
+        black_bishop2 = Bishop(TeamColor.black, (5, 7))
+        self._gameBoard.set_piece_at_index((5, 7), black_bishop2)
+        # set the knights
+        white_knight = Knight(TeamColor.white, (1, 0))
+        self._gameBoard.set_piece_at_index((1, 0), white_knight)
+        white_knight = Knight(TeamColor.white, (6, 0))
+        self._gameBoard.set_piece_at_index((6, 0), white_knight)
+        black_knight = Knight(TeamColor.black, (1, 7))
+        self._gameBoard.set_piece_at_index((1, 7), black_knight)
+        black_knight = Knight(TeamColor.black, (6, 7))
+        self._gameBoard.set_piece_at_index((6, 7), black_knight)
+        # set the rooks
+        white_rook = Rook(TeamColor.white, (7, 0))
+        self._gameBoard.set_piece_at_index((7, 0), white_rook)
+        black_rook = Rook(TeamColor.black, (0, 7))
+        self._gameBoard.set_piece_at_index((0, 7), black_rook)
+        white_rook = Rook(TeamColor.white, (0, 0))
+        self._gameBoard.set_piece_at_index((0, 0), white_rook)
+        black_rook = Rook(TeamColor.black, (7, 7))
+        self._gameBoard.set_piece_at_index((7, 7), black_rook)
+        # set the queens
+        white_queen = Queen(TeamColor.white, (3, 0))
+        self._gameBoard.set_piece_at_index((3, 0), white_queen)
+        black_queen = Queen(TeamColor.black, (3, 7))
+        self._gameBoard.set_piece_at_index((3, 7), black_queen)
+        # set the kings
+        white_king = King(TeamColor.white, (4, 0))
+        self._gameBoard.set_piece_at_index((4, 0), white_king)
+        black_king = King(TeamColor.black, (4, 7))
+        self._gameBoard.set_piece_at_index((4, 7), black_king)
 
     def get_all_moves(self, team_color):
         moves = []
@@ -86,12 +174,17 @@ class GameModel:
                 piece = self._gameBoard.get_piece_at_index((x, y))
                 if piece is not None and piece.get_team() == team_color:
                     moves += piece.get_moves(self._gameBoard)
-                if piece is not None and piece.get_team() != team_color & piece.get_type() == PieceType.king:
-                    self._white_king_position = piece.get_position() if team_color == TeamColor.black \
-                        else self._white_king_position
-                    self._black_king_position = piece.get_position() if team_color == TeamColor.white \
-                        else self._black_king_position
         return moves
+
+    def refresh_king_position(self):
+        for x in range(8):
+            for y in range(8):
+                piece = self._gameBoard.get_piece_at_index((x, y))
+                if piece is not None and piece.get_type() == PieceType.king:
+                    if piece.get_team() == TeamColor.white:
+                        self._white_king_position = piece.get_position()
+                    else:
+                        self._black_king_position = piece.get_position()
 
     def undo(self):
         if self._move_history.get_current() is None:

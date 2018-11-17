@@ -38,8 +38,9 @@ class BoardWidget(FloatLayout):
 
     def place_pieces(self, length):
         for piece in self.piece_map.values():
-            piece.resize(length)
-            self.add_widget(piece)
+            if piece is not None:
+                piece.resize(length)
+                self.add_widget(piece)
 
     def set_piece(self, piece):
         if piece is None:
